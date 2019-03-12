@@ -19,7 +19,11 @@ import javax.swing.*;
  */
 public class Juego extends JFrame {
 
+    // Control de guardado.
+    private GuardarCargar controlGuardado;
+
     // Puntos del juego y puntos que se come el PacMan.
+    private int recordAnterior;
     private int puntosTotales;
     private int cantidadPuntosMax;
     private int cantidadPuntosPorComer;
@@ -78,6 +82,7 @@ public class Juego extends JFrame {
         new ImageIcon(getClass().getResource("/recursos/fantasma5.png")),
         new ImageIcon(getClass().getResource("/recursos/fantasma6.png")),
         new ImageIcon(getClass().getResource("/recursos/fantasma7.png"))};
+    private final ImageIcon imgCopa = new ImageIcon(getClass().getResource("/recursos/copa.png"));
     private final ImageIcon imgPacManArriba = new ImageIcon(getClass().getResource("/recursos/pacman_arriba.png"));
     private final ImageIcon imgPacManAbajo = new ImageIcon(getClass().getResource("/recursos/pacman_abajo.png"));
     private final ImageIcon imgPacManIzq = new ImageIcon(getClass().getResource("/recursos/pacman_izq.png"));
@@ -151,7 +156,10 @@ public class Juego extends JFrame {
      * Constructor de la clase Juego. Inicializa todos los elementos para
      * conformar el juego.
      */
-    public Juego() {
+    public Juego(int recordAnterior) {
+        // Cargar el record anterior para saber si se ha batido.
+        this.recordAnterior = recordAnterior;
+
         // Definir los puntos totales.
         this.puntosTotales = 0;
         this.cantidadPuntosMax = 0;
@@ -204,6 +212,7 @@ public class Juego extends JFrame {
 
     // Crea instancias de los elementos Swing que se van a usar.
     private void crearElementosSwing() {
+        this.controlGuardado = new GuardarCargar();
         this.panelCentral = new JPanel();
         this.panelSur = new JPanel();
         this.panelVidas = new JPanel();
@@ -621,8 +630,16 @@ public class Juego extends JFrame {
                     this.crearHiloReset((byte) 1);
                 } else {
                     this.panelCentral.setBackground(COLOR_FONDO_ESCENARIO_FIN);
-                    int i = JOptionPane.showConfirmDialog(this, "¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION);
-                    if (i == JOptionPane.OK_OPTION) {
+
+                    int decision = 0;
+                    if (this.puntosTotales > this.recordAnterior) {
+                        this.controlGuardado.guardar(this.puntosTotales);
+                        decision = JOptionPane.showConfirmDialog(this, "¡NUEVO RÉCORD!\n¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales + " has batido el récord anterior." + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, imgCopa);
+                    } else {
+                        decision = JOptionPane.showConfirmDialog(this, "¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION);
+                    }
+
+                    if (decision == JOptionPane.OK_OPTION) {
                         this.crearHiloReset((byte) 0);
                     } else {
                         System.exit(0);
@@ -777,15 +794,22 @@ public class Juego extends JFrame {
 
     // Lo que sucede cuando ganas.
     private void hasGanado() {
-        this.refrescar(); // Para mostrar como el PacMan se come el ultimo punto.
-
         this.puntosTotales += 200;
+        this.refrescar(); // Para mostrar como el PacMan se come el ultimo punto.
         this.pausarHilos = true;
         this.finalizarHilos();
         this.parpadeoPantalla((byte) 4);
         this.panelCentral.setBackground(COLOR_FONDO_ESCENARIO_FIN);
-        int i = JOptionPane.showConfirmDialog(this, "¡¡HAS GANADO!!\nTu puntuacion es: " + this.puntosTotales + "\n¿Continuamos?", "¡PERFECTO!", JOptionPane.YES_NO_OPTION);
-        if (i == JOptionPane.OK_OPTION) {
+
+        int decision = 0;
+        if (this.puntosTotales > this.recordAnterior) {
+            this.controlGuardado.guardar(this.puntosTotales);
+            decision = JOptionPane.showConfirmDialog(this, "¡¡¡NUEVO RÉCORD!!!\nTu puntuacion es: " + this.puntosTotales + " has batido un nuevo récord." + "\n¿Continuamos?", "¡PERFECTO! !Nuevo récord!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, imgCopa);
+        } else {
+            decision = JOptionPane.showConfirmDialog(this, "¡¡HAS GANADO!!\nTu puntuacion es: " + this.puntosTotales + "\n¿Continuamos?", "¡PERFECTO!", JOptionPane.YES_NO_OPTION);
+        }
+
+        if (decision == JOptionPane.OK_OPTION) {
             this.crearHiloReset((byte) 2);
         } else {
             System.exit(0);
