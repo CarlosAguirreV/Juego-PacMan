@@ -621,7 +621,7 @@ public class Juego extends JFrame {
                     this.crearHiloReset((byte) 1);
                 } else {
                     this.panelCentral.setBackground(COLOR_FONDO_ESCENARIO_FIN);
-                    int i = JOptionPane.showConfirmDialog(this, "¡Ya no te quedan más vidas!" + "Tu puntuacion es:" + this.puntosTotales + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION);
+                    int i = JOptionPane.showConfirmDialog(this, "¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION);
                     if (i == JOptionPane.OK_OPTION) {
                         this.crearHiloReset((byte) 0);
                     } else {
@@ -784,7 +784,7 @@ public class Juego extends JFrame {
         this.finalizarHilos();
         this.parpadeoPantalla((byte) 4);
         this.panelCentral.setBackground(COLOR_FONDO_ESCENARIO_FIN);
-        int i = JOptionPane.showConfirmDialog(this, "¡¡HAS GANADO!!\nTu puntuacion es:" + this.puntosTotales + "\n¿Continuamos?", "¡PERFECTO!", JOptionPane.YES_NO_OPTION);
+        int i = JOptionPane.showConfirmDialog(this, "¡¡HAS GANADO!!\nTu puntuacion es: " + this.puntosTotales + "\n¿Continuamos?", "¡PERFECTO!", JOptionPane.YES_NO_OPTION);
         if (i == JOptionPane.OK_OPTION) {
             this.crearHiloReset((byte) 2);
         } else {
@@ -907,10 +907,5 @@ public class Juego extends JFrame {
         } else {
             return (byte) rand.nextInt(valorLimite);
         }
-    }
-
-    // Método principal.
-    public static void main(String[] args) {
-        new Juego();
     }
 }
