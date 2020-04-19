@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 public class GuardarCargar {
 
-    private static final File ARCHIVO = new File("save.sav");
+    private static final File ARCHIVO = new File("pacman.sav");
 
     public GuardarCargar() {
     }

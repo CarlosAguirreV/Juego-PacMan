@@ -153,8 +153,10 @@ public class Juego extends JFrame {
     private final int COLUMNAS = ESCENARIO_ORIGINAL[0].length;
 
     /**
-     * Constructor de la clase Juego. Inicializa todos los elementos para
+     * Constructor de la clase Juego.Inicializa todos los elementos para
      * conformar el juego.
+     *
+     * @param recordAnterior El record anteriormente conseguido.
      */
     public Juego(int recordAnterior) {
         // Cargar el record anterior para saber si se ha batido.
@@ -173,7 +175,7 @@ public class Juego extends JFrame {
 
         // Crea una coleccion de objetos de tipo HiloPersonaje, en este caso
         // va destinado a los fantasmas.
-        this.coleccionFantasmas = new ArrayList<HiloPersonaje>();
+        this.coleccionFantasmas = new ArrayList();
 
         // Crear un nuevo escenario.
         ESCENARIO_ACTUAL = new int[FILAS][COLUMNAS];
