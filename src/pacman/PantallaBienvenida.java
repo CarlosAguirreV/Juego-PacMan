@@ -159,7 +159,7 @@ public class PantallaBienvenida extends JFrame {
         this.btnAcerca.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                JOptionPane.showMessageDialog(PantallaBienvenida.this, "Juego programado por: Carlos Aguirre (Codigo Base) en colaboracion con DaPelle y Millan.\nAutor original: Toru Iwatani (1980)\nVersion: 12/03/2019", "Acerca de", JOptionPane.INFORMATION_MESSAGE, imgIcono);
+                JOptionPane.showMessageDialog(PantallaBienvenida.this, "Juego programado por: Carlos Aguirre en colaboracion con DaPelle y Millan.\nAutor original: Toru Iwatani (1980)\nVersion: 12/03/2019", "Acerca de", JOptionPane.INFORMATION_MESSAGE, imgIcono);
             }
         });
         this.btnSalir.addActionListener(new ActionListener() {
